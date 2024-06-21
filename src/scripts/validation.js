@@ -95,22 +95,7 @@ const setEventListeners = (formElement, config) => {
   });
 };
 
-/**
- * Отчищает ошибки форм.
- * @param {object} config Конфигурация.
- * @param {HTMLDivElement} popup Попап.
- */
-export const clearValidation = (config, popup) => {
-  const form = popup.querySelector(config.formSelector);
-  const inputList = [...form.querySelectorAll(config.inputSelector)];
-  const submitButtonElement = form.querySelector(config.submitButtonSelector);
 
-  inputList.forEach((inputElement) => {
-    hideInputError(form, inputElement, config);
-    form.reset();
-    toggleButtonState(inputList, submitButtonElement, config);
-  });
-};
 
 /**
  * Включает валидацию полей форм.

@@ -2,7 +2,7 @@ import { cardSelector, renderCard } from "./scripts/cards";
 import { closePopup, openPopup } from "./scripts/popups";
 import { initEditForm, addProfile, profileElements } from "./scripts/profile";
 import { initGallery } from "./scripts/gallery";
-import { enableValidation, clearValidation } from "./scripts/validation";
+import { enableValidation } from "./scripts/validation";
 import "./styles/index.css";
 import { handleError, RemoteAPI } from "./scripts/api";
 
@@ -133,7 +133,6 @@ function handleOpenPopup(name, data) {
       break;
   }
 
-  clearValidation(popupConfig, popups[name]);
   openPopup(popups[name]);
 }
 
