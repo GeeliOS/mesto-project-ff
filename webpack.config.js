@@ -1,7 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-// подключите к проекту mini-css-extract-plugin
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
@@ -15,7 +14,7 @@ module.exports = {
   devServer: {
     static: path.resolve(__dirname, "./dist"),
     compress: true,
-    port: 8080,
+    port: 8000,
     open: true,
   },
   module: {
@@ -23,19 +22,24 @@ module.exports = {
       {
         test: /\.js$/,
         use: "babel-loader",
-        exclude: /node_modules/,
+        exclude: "/node_modules/",
       },
-      // добавили правило для обработки файлов
       {
-        // регулярное выражение, которое ищет все файлы с такими расширениями
-        test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: "asset/resource",
+        generator: {
+          filename: "images/[name].[hash][ext]",
+        },
       },
       {
-        // применять это правило только к CSS-файлам
+        test: /\.(woff(2)?|eot|ttf|otf)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "fonts/[name].[hash][ext]",
+        },
+      },
+      {
         test: /\.css$/,
-        // при обработке этих файлов нужно использовать
-        // MiniCssExtractPlugin.loader и css-loader
         use: [
           MiniCssExtractPlugin.loader,
           { loader: "css-loader", options: { importLoaders: 1 } },
@@ -49,6 +53,6 @@ module.exports = {
       template: "./src/pages/index.html",
     }),
     new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin(), // подключение плагина для объединения файлов
+    new MiniCssExtractPlugin(),
   ],
 };

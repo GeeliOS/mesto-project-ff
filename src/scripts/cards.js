@@ -1,22 +1,6 @@
-const cardSelector = ".card";
+export const cardSelector = ".card";
 
 const cardTemplate = document.querySelector("#card-template").content;
-
-/**
- * Функция удаления карточки.
- * @param {Event} event Cобытие клика.
- */
-export function deleteCard(event) {
-  event.target.closest(cardSelector).remove();
-}
-
-/**
- * Функция лайка карточки.
- * @param {Event} event Cобытие клика.
- */
-export function likeCard(event) {
-  event.target.classList.toggle("card__like-button_is-active");
-}
 
 /**
  * Возвращает элементы карточки.
@@ -27,6 +11,7 @@ const getCardElements = (element) => ({
   contents: {
     title: element.querySelector(".card__title"),
     image: element.querySelector(".card__image"),
+    likeCounter: element.querySelector(".card__like-counter"),
   },
   buttons: {
     delete: element.querySelector(".card__delete-button"),
@@ -37,20 +22,31 @@ const getCardElements = (element) => ({
 /**
  * Функция создания карточки.
  * @param {Object} cardData Данные карточки.
+ * @param {number} userId Индентификатор пользователя.
  * @param {Object} callbacks Функции callback.
  * @return {Element} Элемент карточки
  */
-export function renderCard(cardData, callbacks) {
+export function renderCard({ likes, link, name, owner }, userId, callbacks) {
   const cardElement = cardTemplate.querySelector(cardSelector).cloneNode(true);
   const { contents, buttons } = getCardElements(cardElement);
 
-  contents.image.src = cardData.link;
-  contents.image.alt = cardData.name;
+  contents.image.src = link;
+  contents.image.alt = name;
+  contents.title.textContent = name;
+  contents.likeCounter.textContent = likes.length;
 
-  contents.title.textContent = cardData.name;
+  if (owner._id === userId) {
+    buttons.delete.classList.add("card__delete-button_is-active");
+    buttons.delete.addEventListener("click", callbacks.deleteCard);
+  }
 
-  buttons.delete.addEventListener("click", callbacks.deleteCard);
-  buttons.like.addEventListener("click", callbacks.likeCard);
+  if (Array.isArray(likes) && likes.some((user) => user._id === userId)) {
+    buttons.like.classList.add("card__like-button_is-active");
+  }
+
+  buttons.like.addEventListener("click", (event) =>
+    callbacks.likeCard(event, contents.likeCounter)
+  );
   contents.image.addEventListener("click", callbacks.openGallery);
 
   return cardElement;
