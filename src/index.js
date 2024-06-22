@@ -92,7 +92,7 @@ function handleDeleteCard() {
   RemoteAPI.deleteCard(cardToDeleteId)
     .then(() => {
       cardToDelete.remove();
-      closePopup();
+      closePopupMain();
     })
     .catch(handleError);
 }
@@ -150,7 +150,7 @@ function handleAddCard(event) {
   })
     .then((data) => {
       cardList.prepend(getCardElement(data, data.owner._id));
-      closePopup();
+      closePopupMain();
       forms.addCard.reset();
     })
     .catch(handleError)
@@ -171,7 +171,7 @@ function handleUpdateUser(event) {
   })
     .then((data) => {
       addProfile(data);
-      closePopup();
+      closePopupMain();
     })
     .catch(handleError)
     .finally(() => toggleLoader(forms.edit, statuses.success));
@@ -189,11 +189,18 @@ function handleUpdateAvatar(event) {
   RemoteAPI.updateAvatar(url)
     .then((data) => {
       profileElements.avatar.style.backgroundImage = `url(${data.avatar})`;
-      closePopup();
+      this.closePopupMain();
       forms.updateAvatar.reset();
     })
     .catch(handleError)
     .finally(() => toggleLoader(forms.updateAvatar, statuses.success));
+}
+
+/**
+ * Общий метод для закрытия popup
+ */
+function closePopupMain() {
+  closePopup(document.querySelector(".popup_is-opened"));
 }
 
 /**

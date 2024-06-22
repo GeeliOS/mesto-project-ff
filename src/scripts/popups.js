@@ -3,11 +3,7 @@ const currentPopupSelector = "popup_is-opened";
 /**
  * Закрытие popup'а.
  */
-export function closePopup() {
-  const currentPopupElement = document.querySelector(
-    `.${currentPopupSelector}`
-  );
-
+export function closePopup(currentPopupElement) {
   currentPopupElement.removeEventListener("mousedown", handleClickOverlay);
   document.removeEventListener("keydown", handleKeyDownEsc);
   currentPopupElement
@@ -22,7 +18,8 @@ export function closePopup() {
  * @param {KeyboardEvent} event Данные события.
  */
 export function handleKeyDownEsc(event) {
-  event.key === "Escape" && closePopup();
+  event.key === "Escape" &&
+    closePopup(document.querySelector(".popup_is-opened"));
 }
 
 /**
@@ -30,8 +27,10 @@ export function handleKeyDownEsc(event) {
  * @param {Event} event Данные события.
  */
 export function handleClickOverlay(event) {
-  if (event.target.classList.contains(currentPopupSelector)) {
-    closePopup(event);
+  console.log(event);
+  if (event.target.classList.contains("popup__close")) {
+    console.log(35);
+    closePopup(document.querySelector(".popup_is-opened"));
   }
 }
 
