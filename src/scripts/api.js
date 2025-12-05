@@ -1,5 +1,5 @@
 const config = {
-  baseUrl: "https://неверный-урл.рф",
+  baseUrl: "https://неверный-урл2.рф",
   headers: {
     authorization: "23ce9711-841e-4434-8cce-a97e3b391d14",
     "Content-Type": "application/json",
