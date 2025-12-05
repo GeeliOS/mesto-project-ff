@@ -1,5 +1,5 @@
 const config = {
-  baseUrl: "https://nomoreparties.co/v1/cohort-bac-2",
+  baseUrl: "https://неверный-урл.рф",
   headers: {
     authorization: "23ce9711-841e-4434-8cce-a97e3b391d14",
     "Content-Type": "application/json",
